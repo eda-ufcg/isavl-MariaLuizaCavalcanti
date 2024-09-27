@@ -8,16 +8,24 @@ public class BST {
     private int size;
 
     public boolean isAVL() {
-        //TODO: implementar
-        return false;
+        return this.isAVL(this.root); 
+    }
+
+    private boolean isAVL(Node n) {
+        if (n == null) {
+            return true;
+        }
+        if (this.balance(n) > 1 || this.balance(n) < -1) {
+            return false;
+        }
+        return isAVL(n.left) && isAVL(n.right); 
     }
 
     /**
      * Retorna a altura da árvore.
      */
     public int height() {
-        //TODO implementar
-        return -1;
+        return height(this.root);
     }
 
     /**
@@ -25,11 +33,17 @@ public class BST {
      * para recursão e para o balance.
      */
     private int height(Node node) {
-        return -1;
+        if (node == null) {
+            return -1;
+        }
+        return 1 + Math.max(height(node.left), height(node.right));
     }
 
     private int balance(Node node) {
-        return -1;
+        if (node == null) {
+            return 0;
+        }
+        return height(node.left) - height(node.right);
     }
 
     /**
@@ -320,15 +334,18 @@ public class BST {
     /**
      * Percorre a árvore em pré-ordem.
      */
-    public void preOrder() {
-        preOrder(this.root);
+    public ArrayList<Node> preOrder() {
+        ArrayList<Node> a = new ArrayList<Node>();
+        preOrder(this.root, a);
+
+        return a;
     }
 
-    private void preOrder(Node node) {
+    private void preOrder(Node node, ArrayList<Node> a) {
         if (node != null) {
-            System.out.println(node.value);
-            preOrder(node.left);
-            preOrder(node.right);
+            a.add(node);
+            preOrder(node.left, a);
+            preOrder(node.right, a);
         }
     }
 
